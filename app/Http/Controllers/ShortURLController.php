@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\ShortUrlService;
+use App\Utils\SecurityUtils;
 use Illuminate\Http\Request;
 
 class ShortURLController extends Controller
@@ -22,7 +23,7 @@ class ShortURLController extends Controller
 
     public function redirectionShortIdToOriginalUrl(String $shortId)
     {
-      return redirect($this->shortUrlService->getOriginalUrlByShortUrl($shortId));
+      return redirect($this->shortUrlService->getOriginalUrlByShortUrl(SecurityUtils::isInputXSSSafe($shortId)));
     }
 
     public function shorten(Request $request)
@@ -31,9 +32,9 @@ class ShortURLController extends Controller
             'url' => 'required|url|max:2048',
         ]);
 
-        $originalUrl = $request->input('url');
+        $cleanOriginalUrl = SecurityUtils::isInputXSSSafe($request->input('url'));
 
-        $shortUrlObj = $this->shortUrlService->saveOrFindShortUrl($originalUrl);
+        $shortUrlObj = $this->shortUrlService->saveOrFindShortUrl($cleanOriginalUrl);
 
         return redirect()->back()->with('short_url', url("/url/" . $shortUrlObj->short_url));
     }

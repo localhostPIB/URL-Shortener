@@ -2,15 +2,35 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\ShortUrl;
+use App\Services\ShortUrlService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
-class ExampleTest extends TestCase
+
+class URLTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
-    public function test_that_true_is_true(): void
+    use RefreshDatabase;
+
+    private ShortUrlService $shortUrlService;
+
+    protected function setUp(): void
     {
-        $this->assertTrue(true);
+        parent::setUp();
+        $this->shortUrlService = app(ShortUrlService::class);
     }
+
+    /** @test */
+    public function itCreatesAShortUrlWithGeneratedCode()
+    {
+        $originalUrl = 'https://example.com/long-url';
+        $shortUrl = $this->shortUrlService->saveOrFindShortUrl($originalUrl);
+
+        $this->assertInstanceOf(ShortUrl::class, $shortUrl);
+        $this->assertEquals($originalUrl, $shortUrl->original_url);
+        $this->assertNotEmpty($shortUrl->short_url);
+        $this->assertEquals(8, strlen($shortUrl->short_url));
+
+    }
+
 }
