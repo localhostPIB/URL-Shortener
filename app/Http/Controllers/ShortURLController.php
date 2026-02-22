@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\QRCodeService;
 use App\Services\ShortUrlService;
 use App\Utils\SecurityUtils;
 use Illuminate\Http\Request;
@@ -11,9 +12,12 @@ class ShortURLController extends Controller
 
     private ShortUrlService $shortUrlService;
 
-    public function __construct(ShortUrlService $shortUrlService)
+    private QrCodeService $qrCodeService;
+
+    public function __construct(ShortUrlService $shortUrlService, QrCodeService $qrCodeService)
     {
         $this->shortUrlService = $shortUrlService;
+        $this->qrCodeService = $qrCodeService;
     }
 
     public function index()
@@ -36,6 +40,10 @@ class ShortURLController extends Controller
 
         $shortUrlObj = $this->shortUrlService->saveOrFindShortUrl($cleanOriginalUrl);
 
-        return redirect()->back()->with('short_url', url("/url/" . $shortUrlObj->short_url));
+        $url = url("/url/" . $shortUrlObj->short_url);
+
+        $qrCode = $this->qrCodeService->createQRCode($url);
+
+        return redirect()->back()->with(['short_url' => $url, 'qr_code' => $qrCode]);
     }
 }

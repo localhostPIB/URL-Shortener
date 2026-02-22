@@ -1,1 +1,1 @@
-## Little URL Shortener
+## Little URL Shortener with QR-Code generator

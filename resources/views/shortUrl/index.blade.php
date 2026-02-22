@@ -36,6 +36,9 @@
                             <div class="alert alert-success mt-3 text-center">
                                 <strong>Deine Kurz-URL:</strong>
                                 <a href="{{ session('short_url') }}" target="_blank">{{ session('short_url') }}</a>
+                                @if(session('qr_code'))
+                                    {!! session('qr_code') !!}
+                                @endif
                             </div>
                         @endif
                     </div>
