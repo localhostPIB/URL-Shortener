@@ -2,9 +2,14 @@
 
 namespace Tests\Unit;
 
+use App\Exceptions\QRCodeCreationException;
+use App\Exceptions\ShortUrlCreationException;
 use App\Models\ShortUrl;
+use App\Services\QRCodeService;
 use App\Services\ShortUrlService;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Random\RandomException;
 use Tests\TestCase;
 
 
@@ -20,7 +25,22 @@ class URLTest extends TestCase
         $this->shortUrlService = app(ShortUrlService::class);
     }
 
-    /** @test */
+    public function testInvalidUrlRedirectsBackWithError()
+    {
+        $response = $this->from('/form')
+            ->post('/shorten', [
+                'url' => 'invalid-url'
+            ]);
+
+        $response
+            ->assertRedirect('/form')
+            ->assertSessionHasErrors();
+    }
+
+
+    /** @test
+     * @throws ShortUrlCreationException|RandomException
+     */
     public function itCreatesAShortUrlWithGeneratedCode()
     {
         $originalUrl = 'https://example.com/long-url';

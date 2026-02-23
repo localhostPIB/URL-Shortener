@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\QRCodeCreationException;
+use App\Exceptions\ShortUrlCreationException;
 use App\Services\QRCodeService;
 use App\Services\ShortUrlService;
 use App\Utils\SecurityUtils;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class ShortURLController extends Controller
 {
@@ -25,11 +29,22 @@ class ShortURLController extends Controller
         return view('ShortURL.index');
     }
 
-    public function redirectionShortIdToOriginalUrl(String $shortId)
+    /**
+     * The redirection to obtain the original URL from a shortened URL.
+     *
+     * @param string $shortId
+     * @return RedirectResponse|Redirector
+     */
+    public function redirectionShortIdToOriginalUrl(string $shortId)
     {
       return redirect($this->shortUrlService->getOriginalUrlByShortUrl(SecurityUtils::isInputXSSSafe($shortId)));
     }
 
+    /**
+     * Creates a shortened URL from a valid URL.
+     *
+     * @throws ShortUrlCreationException| QRCodeCreationException
+     */
     public function shorten(Request $request)
     {
         $request->validate([

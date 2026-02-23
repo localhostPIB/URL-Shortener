@@ -1,7 +1,7 @@
 <?php
 
+use App\Exceptions\ShortUrlCreationException;
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -13,6 +13,16 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         //
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
-        //
-    })->create();
+    ->withExceptions(function ($exceptions) {
+        $exceptions->render(function (ShortUrlCreationException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'error' => $e->getMessage()
+                ], 400);
+            }
+
+            return redirect()->back()
+                ->withErrors($e->getMessage())
+                ->withInput();
+        });
+    })   ->create();
