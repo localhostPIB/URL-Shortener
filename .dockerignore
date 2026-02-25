@@ -1,0 +1,54 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# IDE and editor files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Dependencies
+vendor/
+node_modules/
+
+# Build artifacts and cache
+public/build/
+public/hot
+public/storage
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+bootstrap/cache/*
+
+# Testing
+.phpunit.result.cache
+phpunit.xml
+tests/
+coverage/
+
+# Documentation
+README.md
+*.md
+
+# Package manager files
+composer.lock
+package-lock.json
+
+# Docker files (if building nested containers)
+docker-compose.yml
+docker/
+Dockerfile
+.dockerignore
+
+# Other
+.editorconfig
+.DS_Store
