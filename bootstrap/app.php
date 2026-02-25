@@ -1,8 +1,9 @@
 <?php
 
 use App\Exceptions\ShortUrlCreationException;
+use App\Http\Middleware\SetLocaleFromHeader;
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Middleware;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -10,9 +11,13 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
-        //
+    // I18N
+    ->withMiddleware(function ($middleware) {
+        $middleware->web(append: [
+            SetLocaleFromHeader::class,
+        ]);
     })
+
     ->withExceptions(function ($exceptions) {
         $exceptions->render(function (ShortUrlCreationException $e, $request) {
             if ($request->expectsJson()) {

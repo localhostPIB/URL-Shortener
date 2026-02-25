@@ -8,18 +8,17 @@
             <div class="col-md-6">
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white text-center">
-                        <h3>URL Shortener</h3>
+                        <h3>{{ __('pagination.app-name') }}</h3>
                     </div>
                     <div class="card-body">
-                        {{-- Formular --}}
                         <form action="{{ route('shorten.url') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label for="url" class="form-label">Gib deine URL ein:</label>
+                                <label for="url" class="form-label">{{__('pagination.instruction-text')}}</label>
                                 <input type="url" name="url" id="url" class="form-control"
                                        placeholder="https://example.com" value="https://" required>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">URL kürzen</button>
+                            <button type="submit" class="btn btn-primary w-100">{{ __('pagination.action-button') }}</button>
                         </form>
 
                         @if ($errors->any())
@@ -34,7 +33,7 @@
 
                         @if (session('short_url'))
                             <div class="alert alert-success mt-3 text-center">
-                                <strong>Deine Kurz-URL:</strong>
+                                <strong>{{__('messages.success-message')}}:</strong>
                                 <a href="{{ session('short_url') }}" target="_blank">{{ session('short_url') }}</a>
                                 @if(session('qr_code'))
                                     {!! session('qr_code') !!}
