@@ -9,7 +9,6 @@ class ShortUrl extends Model
     protected $fillable = [
         'original_url',
         'short_url',
-        'date',
     ];
 
     protected $casts = [

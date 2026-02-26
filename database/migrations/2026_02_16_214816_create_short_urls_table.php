@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('original_url');
             $table->string('short_url')->unique();
-            $table->timestamp('date')->nullable();
             $table->timestamps();
         });
     }
