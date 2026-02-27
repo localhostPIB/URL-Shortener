@@ -37,7 +37,7 @@ class ShortURLController extends Controller
      */
     public function redirectionShortIdToOriginalUrl(string $shortId)
     {
-      return redirect($this->shortUrlService->getOriginalUrlByShortUrl(SecurityUtils::isInputXSSSafe($shortId)));
+      return redirect($this->shortUrlService->getOriginalUrlByShortUrl(SecurityUtils::e($shortId)));
     }
 
     /**
@@ -51,7 +51,7 @@ class ShortURLController extends Controller
             'url' => 'required|url|max:2048',
         ]);
 
-        $cleanOriginalUrl = SecurityUtils::isInputXSSSafe($request->input('url'));
+        $cleanOriginalUrl = SecurityUtils::e($request->input('url'));
 
         $shortUrlObj = $this->shortUrlService->saveOrFindShortUrl($cleanOriginalUrl);
 

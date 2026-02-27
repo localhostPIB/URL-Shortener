@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\ShortUrlCreationException;
+use App\Http\Middleware\HSTS;
 use App\Http\Middleware\SetLocaleFromHeader;
 use Illuminate\Foundation\Application;
 
@@ -11,10 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    // I18N
+
     ->withMiddleware(function ($middleware) {
         $middleware->web(append: [
+            // I18N
             SetLocaleFromHeader::class,
+            // HSTS
+            HSTS::class,
         ]);
     })
 

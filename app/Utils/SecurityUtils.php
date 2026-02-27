@@ -11,7 +11,7 @@ class SecurityUtils
      * @param string $inputString The input string to be sanitized.
      * @return string The sanitized string.
      */
-    public static function isInputXSSSafe($inputString): string
+    public static function e(string $inputString): string
     {
         return htmlspecialchars($inputString, ENT_QUOTES, 'UTF-8');
     }
