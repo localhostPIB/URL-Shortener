@@ -1,9 +1,9 @@
-## Little URL Shortener with QR-Code generator
+## Little URL-Shortener with QR-Code generator
 
 With this small Laravel app, you can shorten links and it also generates a QR code. 
 Everything was implemented with Docker Compose.
 
-## Getting Started (with Docker Compose)
+## Getting started (with Docker Compose)
 To build the application with Docker Compose, the following commands must be executed:
 
 1) Build the image, start the container: `docker compose up -d --build`
@@ -17,7 +17,7 @@ To build the application with Docker Compose, the following commands must be exe
 5) Open `http://localhost:8000` in your browser.
 
 
-## Getting Started (without Docker)
+## Getting started (without Docker)
 To build the application without Docker, the following commands must be executed:
 1) You need to install PHP 8.3 and Composer.
 
@@ -32,3 +32,8 @@ To build the application without Docker, the following commands must be executed
 6) Start the server: `php artisan serve`
 
 7) Open `http://localhost:8000` in your browser. 
+
+
+## Sequence diagram
+![Sequence diagram](readmeRessourcen/readmeRessourcen1.png)
+

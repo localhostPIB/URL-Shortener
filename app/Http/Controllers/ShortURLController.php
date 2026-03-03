@@ -10,6 +10,7 @@ use App\Utils\SecurityUtils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Random\RandomException;
 
 class ShortURLController extends Controller
 {
@@ -43,7 +44,7 @@ class ShortURLController extends Controller
     /**
      * Creates a shortened URL from a valid URL.
      *
-     * @throws ShortUrlCreationException| QRCodeCreationException
+     * @throws ShortUrlCreationException| QRCodeCreationException|RandomException
      */
     public function shorten(Request $request)
     {
