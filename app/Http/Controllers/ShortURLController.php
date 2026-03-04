@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\QRCodeCreationException;
 use App\Exceptions\ShortUrlCreationException;
+use App\Services\Interfaces\QRCodeServiceInterface;
+use App\Services\Interfaces\ShortUrlServiceInterface;
 use App\Services\QRCodeService;
 use App\Services\ShortUrlService;
 use App\Utils\SecurityUtils;
@@ -15,14 +16,14 @@ use Random\RandomException;
 class ShortURLController extends Controller
 {
 
-    private ShortUrlService $shortUrlService;
+    private ShortUrlServiceInterface $shortUrlServiceInterface;
 
-    private QrCodeService $qrCodeService;
+    private QRCodeServiceInterface $qrCodeServiceInterface;
 
-    public function __construct(ShortUrlService $shortUrlService, QrCodeService $qrCodeService)
+    public function __construct(ShortUrlService $shortUrlService, QRCodeService $qrCodeService)
     {
-        $this->shortUrlService = $shortUrlService;
-        $this->qrCodeService = $qrCodeService;
+        $this->shortUrlServiceInterface = $shortUrlService;
+        $this->qrCodeServiceInterface = $qrCodeService;
     }
 
     public function index()
@@ -31,20 +32,20 @@ class ShortURLController extends Controller
     }
 
     /**
-     * The redirection to obtain the original URL from a shortened URL.
+     * The redirection to get the original URL from a shortened URL.
      *
      * @param string $shortId
      * @return RedirectResponse|Redirector
      */
     public function redirectionShortIdToOriginalUrl(string $shortId)
     {
-      return redirect($this->shortUrlService->getOriginalUrlByShortUrl(SecurityUtils::e($shortId)));
+      return redirect($this->shortUrlServiceInterface->getOriginalUrlByShortUrl(SecurityUtils::e($shortId)));
     }
 
     /**
      * Creates a shortened URL from a valid URL.
      *
-     * @throws ShortUrlCreationException| QRCodeCreationException|RandomException
+     * @throws ShortUrlCreationException|RandomException
      */
     public function shorten(Request $request)
     {
@@ -54,11 +55,11 @@ class ShortURLController extends Controller
 
         $cleanOriginalUrl = SecurityUtils::e($request->input('url'));
 
-        $shortUrlObj = $this->shortUrlService->saveOrFindShortUrl($cleanOriginalUrl);
+        $shortUrlObj = $this->shortUrlServiceInterface->saveOrFindShortUrl($cleanOriginalUrl);
 
         $url = url("/url/" . $shortUrlObj->short_url);
 
-        $qrCode = $this->qrCodeService->createQRCode($url);
+        $qrCode = $this->qrCodeServiceInterface->createQRCode($url);
 
         return redirect()->back()->with(['short_url' => $url, 'qr_code' => $qrCode]);
     }

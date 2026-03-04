@@ -4,9 +4,10 @@ namespace App\Services;
 
 use App\Exceptions\ShortUrlCreationException;
 use App\Models\ShortUrl;
+use App\Services\Interfaces\ShortUrlServiceInterface;
 use Random\RandomException;
 
-class ShortUrlService
+class ShortUrlService implements ShortUrlServiceInterface
 {
     public function __construct()
     {

@@ -52,3 +52,4 @@ Dockerfile
 # Other
 .editorconfig
 .DS_Store
+*.sqlite
