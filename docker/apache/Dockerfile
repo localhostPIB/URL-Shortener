@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    libzip-dev
+    libzip-dev \
+    npm
 
 # PHP extensions for Laravel 12
 RUN docker-php-ext-install \
