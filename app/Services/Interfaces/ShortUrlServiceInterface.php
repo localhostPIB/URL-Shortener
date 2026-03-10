@@ -8,7 +8,7 @@ interface ShortUrlServiceInterface
 {
     public function saveOrFindShortUrl(string $url): ShortUrl;
 
-    public function getOriginalUrlByShortUrl(string $short_id): ?string;
+    public function getOriginalUrlByShortUrl(string $short_url): ?string;
 
 
 }
