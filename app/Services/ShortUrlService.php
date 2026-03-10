@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Exceptions\ShortUrlCreationException;
 use App\Models\ShortUrl;
 use App\Services\Interfaces\ShortUrlServiceInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Random\RandomException;
 
 class ShortUrlService implements ShortUrlServiceInterface
@@ -89,11 +88,8 @@ private function saveShortUrl(string $originalUrl, ?string $short_id = null): Sh
      */
     public function getOriginalUrlByShortUrl(string $short_url): ?string
     {
-        $shortUrl = ShortUrl::where('short_url', $short_url)->first();
+        $shortUrl = ShortUrl::where('short_url', $short_url)->firstOrFail();
 
-        if (!$shortUrl) {
-            throw new ModelNotFoundException();
-        }
 
         return $shortUrl->original_url;
     }
