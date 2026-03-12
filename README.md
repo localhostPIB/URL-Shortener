@@ -14,7 +14,13 @@ To build the application with Docker Compose, the following commands must be exe
 
 4) Execute database migration: `docker compose exec app php artisan migrate`
 
-5) Open `http://localhost:8000` in your browser.
+#### ------------- For Vite ------------
+5) Execute npm install (as root): `docker compose exec --user root app npm install`
+
+6) Execute npm run dev (as root): `docker compose exec --user root app npm run dev`
+#### -----------------------------------
+
+7) Open `http://localhost:8000` in your browser.
 
 
 ## Getting started (without Docker)
@@ -28,10 +34,15 @@ To build the application without Docker, the following commands must be executed
 4) Generate an application key: `php artisan key:generate`
 
 5) Execute database migration: `php artisan migrate`
+#### ------------- For Vite ------------
+6) Execute npm install: `npm install`
 
-6) Start the server: `php artisan serve`
+7) Execute npm run build: `npm run buid`
+#### -----------------------------------
 
-7) Open `http://localhost:8000` in your browser. 
+8) Start the server: `php artisan serve`
+
+9) Open `http://localhost:8000` in your browser. 
 
 
 ## Sequence diagram
